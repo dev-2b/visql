@@ -50,7 +50,7 @@ Da es sich um eine reine Single-Page-Application (SPA) handelt, ist keine Instal
 
 1. Repository klonen:
    ```bash
-   git clone [https://github.com/DEIN-USERNAME/visQL.git](https://github.com/DEIN-USERNAME/visQL.git)
+   git clone https://github.com/dev-2b/visQL.git
    ```
 2. Die Datei `index.html` direkt im Browser deiner Wahl öffnen.
 
