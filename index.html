@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>visQL – Visual SQL Execution Engine</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+    <!-- 1. HEADER -->
+    <header class="app-header">
+        <div class="logo-container">
+            <h1>🔍 visQL</h1>
+            <span class="badge">Umschulungs-Projekt</span>
+        </div>
+        <p class="subtitle">Interaktive Visualisierung der Logical Query Processing Order in SQL</p>
+    </header>
+
+    <main class="app-container">
+
+        <!-- 2. PIPELINE TRACKER -->
+        <section class="pipeline-section">
+            <div class="pipeline-tracker" id="pipelineTracker">
+                <div class="step active" data-step="0">1. FROM / JOIN</div>
+                <div class="step" data-step="1">2. WHERE</div>
+                <div class="step" data-step="2">3. GROUP BY</div>
+                <div class="step" data-step="3">4. HAVING</div>
+                <div class="step" data-step="4">5. SELECT</div>
+                <div class="step" data-step="5">6. ORDER BY</div>
+            </div>
+            <div class="phase-info" id="phaseInfo">
+                <strong>Phase 1: FROM / JOIN</strong> – Laden der Rohdaten und Erstellen der Ausgangsrelation.
+            </div>
+        </section>
+
+        <!-- 3. MAIN CONTENT (2-SPALTIG) -->
+        <section class="workspace-grid">
+            
+            <!-- Linke Spalte: SQL Code Display -->
+            <div class="card code-card">
+                <h2>📜 Aktuelle SQL-Abfrage</h2>
+                <pre class="code-display"><code id="sqlDisplay">
+<span class="code-block" id="codeSelect">SELECT Ferienhaus_ID, SUM(Tage) AS Gesamtauslastung</span>
+<span class="code-block highlighted" id="codeFrom">FROM Mietvertrag</span>
+<span class="code-block" id="codeWhere">-- WHERE (Kein Filter)</span>
+<span class="code-block" id="codeGroupBy">GROUP BY Ferienhaus_ID</span>
+<span class="code-block" id="codeHaving">-- HAVING (Kein Filter)</span>
+<span class="code-block" id="codeOrderBy">ORDER BY Gesamtauslastung DESC</span>
+<span class="code-block" id="codeLimit">LIMIT 1;</span>
+                </code></pre>
+            </div>
+
+            <!-- Rechte Spalte: Live Table View -->
+            <div class="card table-card">
+                <div class="table-card-header">
+                    <h2>📊 Speicherzustand (Arbeitstabelle)</h2>
+                    <span class="row-count" id="rowCount">Zeilen: 0</span>
+                </div>
+                <div class="table-container" id="tableContainer">
+                    <!-- Wird dynamisch von JS befüllt -->
+                    <p class="placeholder-text">Lade Daten...</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 4. CONTROLS -->
+        <section class="controls-section">
+            <button id="btnPrev" class="btn btn-secondary" disabled>⏮ Zurück</button>
+            <button id="btnReset" class="btn btn-outline">🔄 Reset</button>
+            <button id="btnNext" class="btn btn-primary">Nächster Schritt (WHERE) ➔</button>
+        </section>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

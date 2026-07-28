@@ -28,16 +28,16 @@ Phase 1: Setup & UI   ──►   Phase 2: Data & Core Engine   ──►   Phas
 ```
 
 ### Phase 1: Grundgerüst & UI-Layout
-- [ ] **Repository & Ordnerstruktur anlegen**: Ordner `/css`, `/js/data`, `/js/engine` und `/js/ui` aufsetzen.
-- [ ] **HTML-Dashboard (`index.html`)**:
-  - [ ] Header mit Projekt-Titel und Umschulungs-Kontext.
-  - [ ] Phasen-Steuerungsleiste (Visualisierung der 6 Pipeline-Schritte).
-  - [ ] Hauptbereich mit 2 Spalten: Links der aktuelle SQL-Code, rechts die aktive Daten-Tabelle.
-  - [ ] Control-Buttons (`[Zurück]`, `[Weiter]`, `[Reset]`).
-- [ ] **CSS-Styling (`css/main.css` & `css/components.css`)**:
-  - [ ] Layout per CSS Grid / Flexbox umsetzen.
-  - [ ] Farbschema für aktive/inaktive Pipeline-Phasen festlegen.
-  - [ ] Styling für Daten-Tabellen (`<table>`) und Filter-Animationen.
+- [x] **Repository & Ordnerstruktur anlegen**: Ordner `/css`, `/js/data`, `/js/engine` und `/js/ui` aufsetzen.
+- [x] **HTML-Dashboard (`index.html`)**:
+  - [x] Header mit Projekt-Titel und Umschulungs-Kontext.
+  - [x] Phasen-Steuerungsleiste (Visualisierung der 6 Pipeline-Schritte).
+  - [x] Hauptbereich mit 2 Spalten: Links der aktuelle SQL-Code, rechts die aktive Daten-Tabelle.
+  - [x] Control-Buttons (`[Zurück]`, `[Weiter]`, `[Reset]`).
+- [x] **CSS-Styling (`css/main.css` & `css/components.css`)**:
+  - [x] Layout per CSS Grid / Flexbox umsetzen.
+  - [x] Farbschema für aktive/inaktive Pipeline-Phasen festlegen.
+  - [x] Styling für Daten-Tabellen (`<table>`) und Filter-Animationen.
 
 ### Phase 2: Datenmodell & JS-Pipeline Engine 
 - [ ] **Mock-Daten anlegen (`js/data/mockData.js`)**:
