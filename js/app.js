@@ -1,17 +1,21 @@
 // js/app.js
 
-// 1. IMPORTS (Daten, Engine und UI-Renderer)
+// 1. IMPORTS
 import { activeQuery, mietvertraege, ferienhaeuser } from './data/mockData.js';
+import { executePipelineStep } from './engine/executor.js';
+import { renderTable } from './ui/renderTable.js';
+import { renderCode } from './ui/renderCode.js';
+import { renderGroupBuckets } from './ui/renderGroups.js';
 
-// 2. STATE (Der aktuelle Zustand der Anwendung)
+// 2. STATE
 const state = {
     currentStep: 0, // 0: FROM, 1: WHERE, 2: GROUP BY, 3: HAVING, 4: SELECT, 5: ORDER BY
     maxSteps: 6,
     rawData: { mietvertraege, ferienhaeuser },
-    processedData: [] // Speichert den Datentransform-Zustand je Phase
+    activeQueryResult: null
 };
 
-// 3. DOM-ELEMENTE (Referenzen zu HTML-Knoten)
+// 3. DOM-ELEMENTE
 const elements = {
     btnPrev: document.getElementById('btnPrev'),
     btnNext: document.getElementById('btnNext'),
@@ -19,18 +23,21 @@ const elements = {
     pipelineTracker: document.getElementById('pipelineTracker'),
     phaseInfo: document.getElementById('phaseInfo'),
     tableContainer: document.getElementById('tableContainer'),
-    rowCount: document.getElementById('rowCount')
+    sqlDisplay: document.getElementById('sqlDisplay')
 };
 
-// 4. PIPELINE-STEUERUNG (State Transitions)
+// 4. PIPELINE-STEUERUNG
 
 /**
- * Aktualisiert die Benutzeroberfläche basierend auf state.currentStep
+ * Haupt-Update-Funktion: Berechnet die Daten für die aktuelle Phase und aktualisiert die UI.
  */
 function updateUI() {
     const step = state.currentStep;
 
-    // A. Pipeline Tracker Schritte visuell anpassen
+    // A. Engine ausführen: Berechne den Datenzustand für den aktuellen Schritt
+    state.activeQueryResult = executePipelineStep(step, activeQuery, state.rawData);
+
+    // B. Pipeline Tracker Schritte visuell anpassen
     const steps = elements.pipelineTracker.querySelectorAll('.step');
     steps.forEach((stepEl, index) => {
         if (index === step) {
@@ -40,7 +47,14 @@ function updateUI() {
         }
     });
 
-    // B. Button-Zustände & Beschriftungen steuern
+    // C. Phase-Info Text aktualisieren
+    if (elements.phaseInfo) {
+        elements.phaseInfo.innerHTML = `
+            <strong>Phase ${step + 1}: ${state.activeQueryResult.phaseName}</strong> –${state.activeQueryResult.description}
+        `;
+    }
+
+    // D. Button-Zustände & Beschriftungen steuern
     elements.btnPrev.disabled = (step === 0);
     
     if (step === state.maxSteps - 1) {
@@ -52,30 +66,64 @@ function updateUI() {
         elements.btnNext.textContent = `Nächster Schritt (${nextStepNames[step]}) ➔`;
     }
 
-    // C. Platzhalter-Verarbeitung der Daten (Wird in Phase 3 mit echtem Rendering ersetzt)
-    renderPlaceholderTable();
+    // E. SQL-Codebereich highlighten
+    renderCode(elements.sqlDisplay, activeQuery.codeBlocks, step);
+
+    // F. Tabelle im UI rendern
+    renderCurrentPhaseData();
 }
 
 /**
- * Temporäre Funktion zur Anzeige des aktuellen Schritts in der Tabelle
+ * Rendert die Daten im Tabellen-Container
  */
-function renderPlaceholderTable() {
-    const phaseNames = ['FROM / JOIN', 'WHERE', 'GROUP BY', 'HAVING', 'SELECT', 'ORDER BY'];
-    
-    elements.tableContainer.innerHTML = `
-        <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
-            <h3>Phase ${state.currentStep + 1}:${phaseNames[state.currentStep]}</h3>
-            <p style="margin-top: 0.5rem;">Aktivierte Query: <em>"${activeQuery.title}"</em></p>
-            <p style="margin-top: 1rem; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
-                Engine-Status: bereit für Modul-Anbindung (sqlMethods.js)
-            </p>
-        </div>
-    `;
-    elements.rowCount.textContent = `Phase ${state.currentStep + 1} von 6`;
+function renderCurrentPhaseData() {
+    const { data, isGrouped } = state.activeQueryResult;
+
+    // Custom-Beschriftungen für den Tabellen-Header
+    const customLabels = {
+        mietvertrag_id: "MIETVERTRAG ID",
+        ferienhaus_id: "HAUS ID",
+        kunde_id: "KUNDE ID",
+        tage: "TAGE",
+        jahr: "JAHR",
+        name: "HAUSNAME",
+        ort: "ORT"
+    };
+
+    // Sonderfall GROUP BY / HAVING (Daten liegen als Objekt von Gruppen-Arrays vor)
+    if (isGrouped) {
+        renderGroupedDataView(data);
+        return;
+    }
+
+    // Normalfall (Array von Objekten)
+    renderTable(elements.tableContainer, data, { labels: customLabels });
+}
+
+/**
+ * Hilfs-Rendering für gruppierte Daten (GROUP BY / HAVING)
+ */
+/**
+ * Hilfs-Rendering für gruppierte Daten (GROUP BY / HAVING)
+ */
+function renderGroupedDataView(groups) {
+    const customLabels = {
+        mietvertrag_id: "MIETVERTRAG ID",
+        ferienhaus_id: "HAUS ID",
+        kunde_id: "KUNDE ID",
+        tage: "TAGE",
+        jahr: "JAHR",
+        name: "HAUSNAME",
+        ort: "ORT"
+    };
+
+    renderGroupBuckets(elements.tableContainer, groups, {
+        groupKeyName: "Ferienhaus ID",
+        labels: customLabels
+    });
 }
 
 // 5. EVENT LISTENERS
-
 elements.btnNext.addEventListener('click', () => {
     if (state.currentStep < state.maxSteps - 1) {
         state.currentStep++;
@@ -97,6 +145,6 @@ elements.btnReset.addEventListener('click', () => {
 
 // 6. INITIALISIERUNG
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🔍 visQL Engine erfolgreich gestartet.');
+    console.log('🔍 visQL Engine vollumfänglich gekoppelt.');
     updateUI();
 });

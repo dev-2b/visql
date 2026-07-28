@@ -192,3 +192,113 @@ tr.row-filtered {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* CSS-ERWEITERUNGEN: GROUP BUCKETS & ANIMATIONEN */
+
+/* 1. CONTAINER FÜR DIE GRUPPEN-EIMER */
+.groups-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+/* 2. EINZELNER GROUP-BUCKET */
+.group-bucket {
+    background: rgba(15, 23, 42, 0.6);
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius);
+    padding: 1rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.group-bucket:hover {
+    border-color: var(--accent);
+    background: rgba(15, 23, 42, 0.85);
+}
+
+/* 3. GROUP BUCKET HEADER */
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.group-title {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.group-title strong {
+    color: var(--accent);
+}
+
+.group-badge {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+}
+
+/* 4. UNTER-TABELLEN INNERHALB DES EIMERS */
+.group-body table {
+    background: var(--bg-card);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.group-body th {
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.8rem;
+}
+
+/* 5. ANIMATIONEN UND ÜBERGÄNGE */
+
+/* Sanftes Einblenden neuer Inhalte */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container,
+.code-display {
+    animation: fadeIn 0.25s ease-out;
+}
+
+/* Animation für gefilterte/ausgegraute Zeilen */
+tr {
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+tr.row-filtered {
+    opacity: 0.25;
+    background-color: rgba(239, 68, 68, 0.08);
+    transition: all 0.4s ease;
+}
+
+/* Pulsiereffekt für die aktive Phase im Tracker */
+.step.active {
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from {
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    }
+    to {
+        box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+    }
+}
