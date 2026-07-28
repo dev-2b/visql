@@ -6,6 +6,7 @@ import { executePipelineStep } from './engine/executor.js';
 import { renderTable } from './ui/renderTable.js';
 import { renderCode } from './ui/renderCode.js';
 import { renderGroupBuckets } from './ui/renderGroups.js';
+import { renderPhaseInfo } from './ui/renderPhaseInfo.js';
 
 // 2. STATE
 const state = {
@@ -47,12 +48,9 @@ function updateUI() {
         }
     });
 
-    // C. Phase-Info Text aktualisieren
-    if (elements.phaseInfo) {
-        elements.phaseInfo.innerHTML = `
-            <strong>Phase ${step + 1}: ${state.activeQueryResult.phaseName}</strong> –${state.activeQueryResult.description}
-        `;
-    }
+   // C. Detaillierte Phase-Info rendern (NEU)
+    renderPhaseInfo(elements.phaseInfo, state.activeQueryResult, step);
+    
 
     // D. Button-Zustände & Beschriftungen steuern
     elements.btnPrev.disabled = (step === 0);
