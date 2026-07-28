@@ -39,18 +39,13 @@
         <section class="workspace-grid">
             
             <!-- Linke Spalte: SQL Code Display -->
-            <div class="card code-card">
-                <h2>📜 Aktuelle SQL-Abfrage</h2>
-                <pre class="code-display"><code id="sqlDisplay">
-<span class="code-block" id="codeSelect">SELECT Ferienhaus_ID, SUM(Tage) AS Gesamtauslastung</span>
-<span class="code-block highlighted" id="codeFrom">FROM Mietvertrag</span>
-<span class="code-block" id="codeWhere">-- WHERE (Kein Filter)</span>
-<span class="code-block" id="codeGroupBy">GROUP BY Ferienhaus_ID</span>
-<span class="code-block" id="codeHaving">-- HAVING (Kein Filter)</span>
-<span class="code-block" id="codeOrderBy">ORDER BY Gesamtauslastung DESC</span>
-<span class="code-block" id="codeLimit">LIMIT 1;</span>
-                </code></pre>
-            </div>
+            <!-- Linke Spalte: SQL Code Display -->
+<div class="card code-card">
+    <h2>📜 Aktuelle SQL-Abfrage</h2>
+    <pre class="code-display"><code id="sqlDisplay">
+        <!-- Wird dynamisch von renderCode.js befüllt -->
+    </code></pre>
+</div>
 
             <!-- Rechte Spalte: Live Table View -->
             <div class="card table-card">
