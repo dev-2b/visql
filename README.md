@@ -1,6 +1,12 @@
 # 🔍 visQL
 
-An interactive, client-side visualizer designed to demystify the **Logical Query Processing Order** of SQL through step-by-step pipeline transformations.
+> **Hinweis zur Entwicklung (AI-Assisted Development):**  
+> Dieses Projekt wurde im Rahmen einer Umschulung entwickelt. Der Programmcode und die Architektur entstanden in enger Zusammenarbeit mit **Google Gemini Flash** als KI-Pair-Programmer. 
+> 
+> **Warum dieser Ansatz?**
+> * **Effizienz & Lernfokus:** Das Ziel des Projekts lag primär in der tiefen fachlichen Durchdringung der *Logical Query Processing Order* in SQL sowie im Architektur-Design einer modular aufgebauten JavaScript-Engine. 
+> * **Code-Generierung & Prompt Engineering:** Durch präzises Framing, strukturierte Prompts und schrittweise Code-Reviews wurden komplexe ES6-Module, Algorithmen und CSS-Animationen gemeinsam erarbeitet, von Hand verfeinert und auf Gültigkeit geprüft.
+> * **Praxisnahes Arbeiten:** Die Kombination aus menschlicher Projektsteuerung (Konzeption, Testing, Refactoring) und KI-gestützter Implementierung spiegelt moderne Workflows in der professionellen Softwareentwicklung wider.
 
 ---
 
