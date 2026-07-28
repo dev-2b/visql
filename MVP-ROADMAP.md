@@ -40,38 +40,35 @@ Phase 1: Setup & UI   ──►   Phase 2: Data & Core Engine   ──►   Phas
   - [x] Styling für Daten-Tabellen (`<table>`) und Filter-Animationen.
 
 ### Phase 2: Datenmodell & JS-Pipeline Engine 
-- [ ] **Mock-Daten anlegen (`js/data/mockData.js`)**:
-  - [ ] Daten-Array für `ferienhäuser` und `mietverträge` definieren.
-  - [ ] Beispiel-Query als Daten-Objekt formulieren (Bedingungen, Gruppier-Spalten, Aggregationen).
-- [ ] **SQL-Operationen in JS umsetzen (`js/engine/sqlMethods.js`)**:
-  - [ ] `executeFrom()`: Verknüpfen/Zusammenführen von Objekten (Simulierter `JOIN`).
-  - [ ] `executeWhere()`: Zeilenweises Filtern mittels `Array.prototype.filter()`.
-  - [ ] `executeGroupBy()`: Erzeugen einer verschachtelten Gruppen-Struktur.
-  - [ ] `executeHaving()`: Filtern von Gruppen-Eimern basierend auf aggregierten Werten.
-  - [ ] `executeSelect()`: Umformen und Projizieren der Daten mittels `Array.prototype.map()`.
-  - [ ] `executeOrderBy()`: Sortieren der finalen Tabelle mittels `Array.prototype.sort()`.
-- [ ] **Pipeline-Steuerung (`js/engine/executor.js`)**:
-  - [ ] Zustandsspeicher (State Machine) für den aktuellen Schritt (0 bis 5) aufbauen.
-  - [ ] Funktion schreiben, die bei Klick auf „Weiter“ den nächsten Zustand berechnet.
+- [x] **Mock-Daten anlegen (`js/data/mockData.js`)**:
+  - [x] Daten-Array für `ferienhäuser` und `mietverträge` definieren.
+  - [x] Beispiel-Query als Daten-Objekt formulieren (Bedingungen, Gruppier-Spalten, Aggregationen).
+- [x] **SQL-Operationen in JS umsetzen (`js/engine/sqlMethods.js`)**:
+  - [x] `executeFrom()`: Verknüpfen/Zusammenführen von Objekten (Simulierter `JOIN`).
+  - [x] `executeWhere()`: Zeilenweises Filtern mittels `Array.prototype.filter()`.
+  - [x] `executeGroupBy()`: Erzeugen einer verschachtelten Gruppen-Struktur.
+  - [x] `executeHaving()`: Filtern von Gruppen-Eimern basierend auf aggregierten Werten.
+  - [x] `executeSelect()`: Umformen und Projizieren der Daten mittels `Array.prototype.map()`.
+  - [x] `executeOrderBy()`: Sortieren der finalen Tabelle mittels `Array.prototype.sort()`.
+- [x] **Pipeline-Steuerung (`js/engine/executor.js`)**:
+  - [x] Zustandsspeicher (State Machine) für den aktuellen Schritt (0 bis 5) aufbauen.
+  - [x] Funktion schreiben, die bei Klick auf „Weiter“ den nächsten Zustand berechnet.
 
 ### Phase 3: Dynamisches Rendering & Visualisierung
-- [ ] **Tabellen-Renderer (`js/ui/renderTable.js`)**:
-  - [ ] Funktion zur dynamischen Generierung von HTML-Tabellen aus den JS-Objekten.
-  - [ ] Logik zum visuellen Ausgrauen/Rot-Markieren gefilterter Zeilen.
-- [ ] **Group-Renderer (`js/ui/renderGroups.js`)**:
-  - [ ] Optische Darstellung von `GROUP BY`-Eimern als farbige Container im UI.
-- [ ] **Pipeline-Tracker (`js/ui/renderPipe.js`)**:
-  - [ ] Aktive Phase in der Fortschrittsleiste oben optisch hervorheben.
-  - [ ] Kurze Erklärung einblenden, was in der aktuellen Phase mit den Daten passiert.
+- [x] **Tabellen-Renderer (`js/ui/renderTable.js`)**:
+  - [x] Funktion zur dynamischen Generierung von HTML-Tabellen aus den JS-Objekten.
+  - [x] Logik zum visuellen Ausgrauen/Rot-Markieren gefilterter Zeilen.
+- [x] **Group-Renderer (`js/ui/renderGroups.js`)**:
+  - [x] Optische Darstellung von `GROUP BY`-Eimern als farbige Container im UI.
 
 ### Phase 4: Testen, Dokumentation & Release
-- [ ] **Integration & App-Orchestrierung (`js/app.js`)**:
-  - [ ] Event-Listener auf Buttons legen und UI mit Engine koppeln.
+- [x] **Integration & App-Orchestrierung (`js/app.js`)**:
+  - [x] Event-Listener auf Buttons legen und UI mit Engine koppeln.
 - [ ] **Testing & Debugging**:
   - [ ] Edge Cases prüfen (z. B. leere Filter-Ergebnisse).
   - [ ] Responsive Layout und Browser-Kompatibilität testen.
-- [ ] **GitHub Release**:
-  - [ ] `README.md` aktualisieren und Screenshots/GIFs vom fertigen MVP einbinden.
+- [x] **GitHub Release**:
+  - [x] `README.md` aktualisieren 
   - [ ] GitHub Pages aktivieren für die Live-Demo im Browser.
 
 ---

@@ -58,10 +58,10 @@ Da es sich um eine reine Single-Page-Application (SPA) handelt, ist keine Instal
 
 ## 📝 Roadmap & Geplante Features
 
-- [ ] Statisches Dashboard-Layout & Pipeline-Navigation
-- [ ] Erstellung der Test-Datensätze (`Mietvertrag`, `Ferienhaus`, `Maengelanzeige`)
-- [ ] Umsetzung der ersten JS-Pipeline-Schritte (`FROM`, `WHERE`)
-- [ ] Visuelle Darstellung von `GROUP BY`-Containern
+- [x] Statisches Dashboard-Layout & Pipeline-Navigation
+- [x] Erstellung der Test-Datensätze (`Mietvertrag`, `Ferienhaus`, `Maengelanzeige`)
+- [x] Umsetzung der ersten JS-Pipeline-Schritte (`FROM`, `WHERE`)
+- [x] Visuelle Darstellung von `GROUP BY`-Containern
 - [ ] Interaktive Eingabe eigener vereinfachter SQL-Befehle
 
 ## Projektstruktur
