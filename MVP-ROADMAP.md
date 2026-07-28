@@ -11,7 +11,7 @@ Das MVP (Minimum Viable Product) von **visQL** ist ein lauffähiges, reines Brow
 Ziel des MVPs ist es nicht, eine vollständige SQL-Engine mit freier Texteingabe zu bauen, sondern die **Daten-Transformationen der 6 Ausführungsphasen visuell erfahrbar zu machen**.
 
 ### Kernmerkmale des MVPs:
-* **Fester Kontext**: Ein vordefinierter Datensatz (z. B. `Mietvertrag` und `Ferienhaus`).
+* **Fester Kontext**: Ein vordefinierter Datensatz
 * **Vorgegebene Beispiel-Abfrage**: Eine festgelegte SQL-Abfrage, die alle 6 Phasen durchläuft (inklusive `JOIN`, `WHERE`, `GROUP BY`, `HAVING`, `SELECT` und `ORDER BY`).
 * **Schritt-für-Schritt-Steuerung**: Ein „Nächster Schritt“-Button, der den Zustand der Daten von Phase 1 bis Phase 6 durchschaltet.
 * **Visuelles Feedback**: 
