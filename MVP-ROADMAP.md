@@ -64,12 +64,10 @@ Phase 1: Setup & UI   ──►   Phase 2: Data & Core Engine   ──►   Phas
 ### Phase 4: Testen, Dokumentation & Release
 - [x] **Integration & App-Orchestrierung (`js/app.js`)**:
   - [x] Event-Listener auf Buttons legen und UI mit Engine koppeln.
-- [ ] **Testing & Debugging**:
-  - [ ] Edge Cases prüfen (z. B. leere Filter-Ergebnisse).
-  - [ ] Responsive Layout und Browser-Kompatibilität testen.
+
 - [x] **GitHub Release**:
   - [x] `README.md` aktualisieren 
-  - [ ] GitHub Pages aktivieren für die Live-Demo im Browser.
+  - [ ] GitHub Pages aktivieren für die Live-Demo im Browser. (optional)
 
 ---
 
@@ -78,4 +76,4 @@ Phase 1: Setup & UI   ──►   Phase 2: Data & Core Engine   ──►   Phas
 Nach erfolgreichem Abschluss des MVPs können folgende Erweiterungen geplant werden:
 * **Freie SQL-Eingabe**: Ein einfacher SQL-Parser, der benutzerdefinierte `SELECT`-Statements verarbeiten kann.
 * **Umschaltbare Datensätze**: Auswahl zwischen verschiedenen Übungsaufgaben aus IHK-Klausuren.
-* **Export-Funktion**: Exportieren der Zwischenzustände als Lerngrafik oder PDF.
+* **DDL-Unterstützung**: Erstellung und Manipulation von Tabellenstrukturen (CREATE, ALTER, DROP).
