@@ -20,52 +20,103 @@
 
     <main class="app-container">
 
-        <!-- 2. PIPELINE TRACKER -->
-        <section class="pipeline-section">
-            <div class="pipeline-tracker" id="pipelineTracker">
-                <div class="step active" data-step="0">1. FROM / JOIN</div>
-                <div class="step" data-step="1">2. WHERE</div>
-                <div class="step" data-step="2">3. GROUP BY</div>
-                <div class="step" data-step="3">4. HAVING</div>
-                <div class="step" data-step="4">5. SELECT</div>
-                <div class="step" data-step="5">6. ORDER BY</div>
+        <!-- 2. FIXED SQL CODE DISPLAY -->
+        <section class="card code-card-fixed">
+            <div class="code-header">
+                <h2>📜 Aktuelle SQL-Abfrage</h2>
+                <div class="controls-group">
+                    <button id="btnPrev" class="btn btn-secondary" disabled>⏮ Zurück</button>
+                    <button id="btnNext" class="btn btn-primary">Starten ➔</button>
+                    <button id="btnReset" class="btn btn-outline">🔄 Reset</button>
+                </div>
             </div>
-            <div class="phase-info" id="phaseInfo">
-                <strong>Phase 1: FROM / JOIN</strong> – Laden der Rohdaten und Erstellen der Ausgangsrelation.
-            </div>
+            <pre class="code-display"><code id="sqlDisplay">
+                <!-- Wird dynamisch von renderCode.js befüllt -->
+            </code></pre>
         </section>
 
-        <!-- 3. MAIN CONTENT (2-SPALTIG) -->
-        <section class="workspace-grid">
+        <!-- 3. ACCORDION CONTAINER -->
+        <section class="accordion-container" id="accordionContainer">
             
-            <!-- Linke Spalte: SQL Code Display -->
-            <!-- Linke Spalte: SQL Code Display -->
-<div class="card code-card">
-    <h2>📜 Aktuelle SQL-Abfrage</h2>
-    <pre class="code-display"><code id="sqlDisplay">
-        <!-- Wird dynamisch von renderCode.js befüllt -->
-    </code></pre>
-</div>
-
-            <!-- Rechte Spalte: Live Table View -->
-            <div class="card table-card">
-                <div class="table-card-header">
-                    <h2>📊 Speicherzustand (Arbeitstabelle)</h2>
-                    <span class="row-count" id="rowCount">Zeilen: 0</span>
+            <!-- Step 0: Schema -->
+            <div class="accordion-card active" data-step="0">
+                <div class="accordion-header">
+                    <h3>0. Initialzustand (Datenbank-Schema)</h3>
+                    <span class="status-indicator"></span>
                 </div>
-                <div class="table-container" id="tableContainer">
-                    <!-- Wird dynamisch von JS befüllt -->
-                    <p class="placeholder-text">Lade Daten...</p>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-0">
+                        <p class="placeholder-text">Lade Schema...</p>
+                    </div>
                 </div>
             </div>
 
-        </section>
+            <!-- Step 1: FROM -->
+            <div class="accordion-card" data-step="1">
+                <div class="accordion-header">
+                    <h3>1. FROM / JOIN</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-1"></div>
+                </div>
+            </div>
 
-        <!-- 4. CONTROLS -->
-        <section class="controls-section">
-            <button id="btnPrev" class="btn btn-secondary" disabled>⏮ Zurück</button>
-            <button id="btnReset" class="btn btn-outline">🔄 Reset</button>
-            <button id="btnNext" class="btn btn-primary">Nächster Schritt (WHERE) ➔</button>
+            <!-- Step 2: WHERE -->
+            <div class="accordion-card" data-step="2">
+                <div class="accordion-header">
+                    <h3>2. WHERE</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-2"></div>
+                </div>
+            </div>
+
+            <!-- Step 3: GROUP BY -->
+            <div class="accordion-card" data-step="3">
+                <div class="accordion-header">
+                    <h3>3. GROUP BY</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-3"></div>
+                </div>
+            </div>
+
+            <!-- Step 4: HAVING -->
+            <div class="accordion-card" data-step="4">
+                <div class="accordion-header">
+                    <h3>4. HAVING</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-4"></div>
+                </div>
+            </div>
+
+            <!-- Step 5: SELECT -->
+            <div class="accordion-card" data-step="5">
+                <div class="accordion-header">
+                    <h3>5. SELECT</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-5"></div>
+                </div>
+            </div>
+
+            <!-- Step 6: ORDER BY -->
+            <div class="accordion-card" data-step="6">
+                <div class="accordion-header">
+                    <h3>6. ORDER BY</h3>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="table-container" id="container-step-6"></div>
+                </div>
+            </div>
+
         </section>
 
     </main>

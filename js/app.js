@@ -6,14 +6,15 @@ import { executePipelineStep } from './engine/executor.js';
 import { renderTable } from './ui/renderTable.js';
 import { renderCode } from './ui/renderCode.js';
 import { renderGroupBuckets } from './ui/renderGroups.js';
-import { renderPhaseInfo } from './ui/renderPhaseInfo.js';
+import { renderSchema } from './ui/renderSchema.js';
 
 // 2. STATE
 const state = {
-    currentStep: 0, // 0: FROM, 1: WHERE, 2: GROUP BY, 3: HAVING, 4: SELECT, 5: ORDER BY
-    maxSteps: 6,
+    currentStep: 0, // 0: Schema, 1: FROM, 2: WHERE, 3: GROUP BY, 4: HAVING, 5: SELECT, 6: ORDER BY
+    maxSteps: 7,
     rawData: { mietvertraege, ferienhaeuser },
-    activeQueryResult: null
+    activeQueryResult: null,
+    manuallyOpenedSteps: new Set([0]) // Set der aktuell offenen Karten
 };
 
 // 3. DOM-ELEMENTE
@@ -21,10 +22,8 @@ const elements = {
     btnPrev: document.getElementById('btnPrev'),
     btnNext: document.getElementById('btnNext'),
     btnReset: document.getElementById('btnReset'),
-    pipelineTracker: document.getElementById('pipelineTracker'),
-    phaseInfo: document.getElementById('phaseInfo'),
-    tableContainer: document.getElementById('tableContainer'),
-    sqlDisplay: document.getElementById('sqlDisplay')
+    sqlDisplay: document.getElementById('sqlDisplay'),
+    accordionCards: document.querySelectorAll('.accordion-card')
 };
 
 // 4. PIPELINE-STEUERUNG
@@ -38,44 +37,58 @@ function updateUI() {
     // A. Engine ausführen: Berechne den Datenzustand für den aktuellen Schritt
     state.activeQueryResult = executePipelineStep(step, activeQuery, state.rawData);
 
-    // B. Pipeline Tracker Schritte visuell anpassen
-    const steps = elements.pipelineTracker.querySelectorAll('.step');
-    steps.forEach((stepEl, index) => {
-        if (index === step) {
-            stepEl.classList.add('active');
-        } else {
-            stepEl.classList.remove('active');
-        }
-    });
-
-   // C. Detaillierte Phase-Info rendern (NEU)
-    renderPhaseInfo(elements.phaseInfo, state.activeQueryResult, step);
-    
-
-    // D. Button-Zustände & Beschriftungen steuern
+    // B. Button-Zustände & Beschriftungen steuern
     elements.btnPrev.disabled = (step === 0);
     
     if (step === state.maxSteps - 1) {
         elements.btnNext.disabled = true;
-        elements.btnNext.textContent = 'Pipeline Beendet 🎉';
+        elements.btnNext.textContent = 'Beendet 🎉';
     } else {
         elements.btnNext.disabled = false;
-        const nextStepNames = ['WHERE', 'GROUP BY', 'HAVING', 'SELECT', 'ORDER BY'];
+        const nextStepNames = ['FROM / JOIN', 'WHERE', 'GROUP BY', 'HAVING', 'SELECT', 'ORDER BY'];
         elements.btnNext.textContent = `Nächster Schritt (${nextStepNames[step]}) ➔`;
     }
 
-    // E. SQL-Codebereich highlighten
-    renderCode(elements.sqlDisplay, activeQuery.codeBlocks, step);
+    // C. SQL-Codebereich highlighten
+    // renderCode erwartet Schritt (0 = FROM, 1 = WHERE...) - wir müssen also step - 1 übergeben für das Highlighting
+    renderCode(elements.sqlDisplay, activeQuery.codeBlocks, step - 1);
 
-    // F. Tabelle im UI rendern
+    // D. Akkordeon Ansicht updaten (offene/geschlossene Karten)
+    updateAccordionView();
+
+    // E. Tabelle im UI für den aktuellen Schritt rendern
     renderCurrentPhaseData();
 }
 
+function updateAccordionView() {
+    elements.accordionCards.forEach((card, index) => {
+        // Logik zum Ausgrauen: Wenn ein Schritt im Query nicht existiert (z.B. HAVING).
+        // Für dieses Beispiel gehen wir davon aus, dass wir alle durchgehen.
+        // Die Logik zum Überspringen könnte man über activeQuery.pipeline prüfen.
+        
+        // Karte als aktiv (offen) markieren, wenn sie in manuallyOpenedSteps ist
+        if (state.manuallyOpenedSteps.has(index)) {
+            card.classList.add('active');
+        } else {
+            card.classList.remove('active');
+        }
+    });
+}
+
 /**
- * Rendert die Daten im Tabellen-Container
+ * Rendert die Daten im Tabellen-Container der jeweiligen Akkordeon-Karte
  */
 function renderCurrentPhaseData() {
-    const { data, isGrouped } = state.activeQueryResult;
+    const step = state.currentStep;
+    const { data, isGrouped, isSchema } = state.activeQueryResult;
+    const container = document.getElementById(`container-step-${step}`);
+    
+    if (!container) return;
+
+    if (isSchema) {
+        renderSchema(container, data);
+        return;
+    }
 
     // Custom-Beschriftungen für den Tabellen-Header
     const customLabels = {
@@ -85,64 +98,82 @@ function renderCurrentPhaseData() {
         tage: "TAGE",
         jahr: "JAHR",
         name: "HAUSNAME",
-        ort: "ORT"
+        ort: "ORT",
+        "Gesamtauslastung (Tage)": "GESAMTAUSLASTUNG (TAGE)"
     };
 
-    // Sonderfall GROUP BY / HAVING (Daten liegen als Objekt von Gruppen-Arrays vor)
+    // Sonderfall GROUP BY / HAVING
     if (isGrouped) {
-        renderGroupedDataView(data);
+        renderGroupBuckets(container, data, {
+            groupKeyName: "Ferienhaus ID",
+            labels: customLabels
+        });
         return;
     }
 
-    // Normalfall (Array von Objekten)
-    renderTable(elements.tableContainer, data, { labels: customLabels });
-}
-
-/**
- * Hilfs-Rendering für gruppierte Daten (GROUP BY / HAVING)
- */
-/**
- * Hilfs-Rendering für gruppierte Daten (GROUP BY / HAVING)
- */
-function renderGroupedDataView(groups) {
-    const customLabels = {
-        mietvertrag_id: "MIETVERTRAG ID",
-        ferienhaus_id: "HAUS ID",
-        kunde_id: "KUNDE ID",
-        tage: "TAGE",
-        jahr: "JAHR",
-        name: "HAUSNAME",
-        ort: "ORT"
-    };
-
-    renderGroupBuckets(elements.tableContainer, groups, {
-        groupKeyName: "Ferienhaus ID",
-        labels: customLabels
-    });
+    // Normalfall
+    renderTable(container, data, { labels: customLabels });
 }
 
 // 5. EVENT LISTENERS
 elements.btnNext.addEventListener('click', () => {
     if (state.currentStep < state.maxSteps - 1) {
-        state.currentStep++;
+        const nextStep = state.currentStep + 1;
+        // Automatische Akkordeon-Logik: Neuer und vorheriger Schritt bleiben offen, Rest zu
+        state.manuallyOpenedSteps.clear();
+        state.manuallyOpenedSteps.add(state.currentStep);
+        state.manuallyOpenedSteps.add(nextStep);
+        
+        state.currentStep = nextStep;
         updateUI();
     }
 });
 
 elements.btnPrev.addEventListener('click', () => {
     if (state.currentStep > 0) {
-        state.currentStep--;
+        const prevStep = state.currentStep - 1;
+        state.manuallyOpenedSteps.clear();
+        state.manuallyOpenedSteps.add(state.currentStep);
+        state.manuallyOpenedSteps.add(prevStep);
+        
+        state.currentStep = prevStep;
         updateUI();
     }
 });
 
 elements.btnReset.addEventListener('click', () => {
     state.currentStep = 0;
+    state.manuallyOpenedSteps.clear();
+    state.manuallyOpenedSteps.add(0);
     updateUI();
 });
 
+// Akkordeon Header Klick (manuelles Öffnen/Schließen)
+elements.accordionCards.forEach((card, index) => {
+    const header = card.querySelector('.accordion-header');
+    header.addEventListener('click', () => {
+        if (card.classList.contains('disabled')) return;
+        
+        if (state.manuallyOpenedSteps.has(index)) {
+            // Wenn man auf eine offene klickt, schließen (es sei denn es ist die einzige offene? Ne, lass schließen)
+            state.manuallyOpenedSteps.delete(index);
+        } else {
+            // Optionale Logik: Maximal 2 offen lassen?
+            // Wenn schon 2 offen sind, die älteste schließen (oder hier einfach erlauben, beliebig viele zu öffnen)
+            if (state.manuallyOpenedSteps.size >= 2) {
+                // Finde diejenige, die am weitesten vom angeklickten index entfernt ist und lösche sie
+                const arr = Array.from(state.manuallyOpenedSteps);
+                state.manuallyOpenedSteps.delete(arr[0]); // Einfach die älteste löschen
+            }
+            state.manuallyOpenedSteps.add(index);
+        }
+        updateAccordionView();
+    });
+});
+
+
 // 6. INITIALISIERUNG
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🔍 visQL Engine vollumfänglich gekoppelt.');
+    console.log('🔍 visQL Engine vollumfänglich gekoppelt (Akkordeon Layout).');
     updateUI();
 });

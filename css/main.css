@@ -1,22 +1,22 @@
 /* CSS-VARIABLEN (THEME) */
 :root {
-    --bg-dark: #0f172a;
-    --bg-card: #1e293b;
-    --bg-card-hover: #334155;
-    --border-color: #334155;
+    --bg-dark: #09090b; /* Zinc 950 */
+    --bg-card: #18181b; /* Zinc 900 */
+    --bg-card-hover: #27272a; /* Zinc 800 */
+    --border-color: #3f3f46; /* Zinc 700 */
     
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
+    --text-main: #f4f4f5; /* Zinc 100 */
+    --text-muted: #a1a1aa; /* Zinc 400 */
     
-    --primary: #3b82f6;
-    --primary-hover: #2563eb;
+    --primary: #6366f1; /* Indigo 500 */
+    --primary-hover: #4f46e5; /* Indigo 600 */
     --accent: #f59e0b;
     --danger: #ef4444;
     --success: #10b981;
     
     --font-mono: 'Fira Code', 'Consolas', monospace;
-    --radius: 8px;
-    --transition: all 0.25s ease-in-out;
+    --radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* RESET & BASE STYLES */
